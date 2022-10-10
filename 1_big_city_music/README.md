@@ -19,8 +19,7 @@ The data is stored in `yandex_music_project.csv` file.
 - `time` — playback start time;
 - `Day` - day of the week.
 
-
-
+-----------------------------------------------
 ***Russian version***
 
   На реальных данных Яндекс Музыки вы проверите гипотезы и сравните поведение пользователей двух столиц.
