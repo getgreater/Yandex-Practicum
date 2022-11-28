@@ -1,6 +1,6 @@
 # Project Description / Описание проекта
 
-Using real data from Yandex Music service, we will test hypotheses and compare the behavior of users in two big cities.
+Using real data from Music service, we will test hypotheses and compare the behavior of users in two big cities.
 
 ### Hypotheses
 1. User activity depends on the day of the week. Moreover, in Moscow and St. Petersburg this manifests itself in different ways.
@@ -8,7 +8,7 @@ Using real data from Yandex Music service, we will test hypotheses and compare t
 3. Moscow and St. Petersburg prefer different genres of music. In Moscow, they listen to pop music more often, in St. Petersburg - Russian rap.
 
 ### Data
-The data is stored in `yandex_music_project.csv` file.
+The data is stored in `music_project.csv` file.
 
 ### Description of columns:
 - `userID` — user identifier;
@@ -22,7 +22,7 @@ The data is stored in `yandex_music_project.csv` file.
 -----------------------------------------------
 ***Russian version***
 
-  На реальных данных Яндекс Музыки мы проверим гипотезы и сравним поведение пользователей двух столиц.
+  На реальных данных сервиса Музыки мы проверим гипотезы и сравним поведение пользователей двух столиц.
 
 ### Гипотезы
 1. Активность пользователей зависит от дня недели. Причём в Москве и Петербурге это проявляется по-разному.
@@ -30,7 +30,7 @@ The data is stored in `yandex_music_project.csv` file.
 3. Москва и Петербург предпочитают разные жанры музыки. В Москве чаще слушают поп-музыку, в Петербурге — русский рэп.
 
 ### Данные
-Данные хранятся в файле `yandex_music_project.csv`. 
+Данные хранятся в файле `music_project.csv`. 
 
 ### Описание колонок:
 - `userID` — идентификатор пользователя;
