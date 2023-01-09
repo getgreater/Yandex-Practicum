@@ -11,10 +11,21 @@
 [5. Выведите на экран всю информацию о людях, у которых названия аккаунтов в твиттере содержат подстроку 'money', а фамилия начинается на 'K'](#T5)<br>
 [6. Для каждой страны отобразим общую сумму привлечённых инвестиций, которые получили компании, зарегистрированные в этой стране.](#T6)<br>
 [7. Составим таблицу, в которую войдёт дата проведения раунда, а также минимальное и максимальное значения суммы инвестиций, привлечённых в эту дату.](#T7)<br>
-[Логические операции](#T8)<br>
-[Операторы BETWEEN, IN](#9)<br>
-[Выборка с сортировкой](#T10)<br>
-[Оператор LIKE](#T11)<br>
+[8. Создадим поле с категориями. Отобразим все поля таблицы `fund` и новое поле с категориями.](#T8)<br>
+[9. Для каждой из категорий, назначенных в предыдущем задании, посчитаем округлённое до ближайшего целого числа среднее количество инвестиционных раундов, в которых фонд принимал участие.](#T9)<br>
+[10. Проанализируем, в каких странах находятся фонды, которые чаще всего инвестируют в стартапы.](#T10)<br>
+[11. Отобразим имя и фамилию всех сотрудников стартапов.](#T11)<br>
+[12. Для каждой компании найдем количество учебных заведений, которые окончили её сотрудники.](#T12)<br>
+[11. Отобразим имя и фамилию всех сотрудников стартапов.](#T11)<br>
+[11. Отобразим имя и фамилию всех сотрудников стартапов.](#T11)<br>
+[11. Отобразим имя и фамилию всех сотрудников стартапов.](#T11)<br>
+[11. Отобразим имя и фамилию всех сотрудников стартапов.](#T11)<br>
+[11. Отобразим имя и фамилию всех сотрудников стартапов.](#T11)<br>
+[11. Отобразим имя и фамилию всех сотрудников стартапов.](#T11)<br>
+[11. Отобразим имя и фамилию всех сотрудников стартапов.](#T11)<br>
+[11. Отобразим имя и фамилию всех сотрудников стартапов.](#T11)<br>
+[11. Отобразим имя и фамилию всех сотрудников стартапов.](#T11)<br>
+[11. Отобразим имя и фамилию всех сотрудников стартапов.](#T11)<br>
 
 <br><a name="T1"></a>
 #### 1. Посчитаем, сколько компаний закрылось.
@@ -161,105 +172,172 @@ AND MIN(fr.raised_amount) <> MAX(fr.raised_amount);
 | 2007-08-16 |	2.51989e+06	9e+06 | 
 |...|
 ___
-<a name="T2"></a>
-#### 2. Отобразим количество привлечённых средств для новостных компаний США. Используем данные из таблицы `company`. Отсортируем таблицу по убыванию значений в поле `funding_total` .
+
+<a name="T8"></a>
+
+#### 8. Создадим поле с категориями: Для фондов, которые инвестируют в 100 и более компаний, категорию `high_activity`. Для фондов, которые инвестируют в 20 и более компаний до 100, категорию `middle_activity`. Если количество инвестируемых компаний фонда не достигает 20 - `low_activity`. Отобразим все поля таблицы `fund` и новое поле с категориями.
 
 ```SQL
-SELECT to_char(CAST(c.funding_total AS numeric), '9999999999FM') AS funding_total
-FROM company c
-WHERE c.category_code = 'news'
-  AND country_code = 'USA'
-ORDER BY c.funding_total DESC;
+SELECT *,
+       CASE
+           WHEN invested_companies > 100 THEN 'high_activity'
+           WHEN invested_companies >= 20
+                AND invested_companies < 100 THEN 'middle_activity'
+           WHEN invested_companies < 20 THEN 'low_activity'-- сюда запишите условия
+
+       END
+FROM fund;
 
 ```
 Результат: 
-(https://www.tech-spy.co.uk/webtools/text_to_html_table/index.php)
-___
-<a name="T2"></a>
-#### 2. Отобразим количество привлечённых средств для новостных компаний США. Используем данные из таблицы `company`. Отсортируем таблицу по убыванию значений в поле `funding_total` .
+<table border="1">
+<thead>
+<tr><th>id</th><th> name</th><th> founded_at</th><th> domain</th><th> twitter_username</th><th> country_code</th><th> investment_rounds</th><th> invested_companies</th><th> milestones</th><th> created_at</th><th> updated_at</th><th> case</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td> Greylock Partners</td><td> 1965-01-01</td><td> greylock.com</td><td> greylockvc</td><td> USA</td><td> 307</td><td> 196</td><td> 0</td><td> 2007-05-25 20:18:23</td><td> 2012-12-27 00:42:24</td><td> high_activity</td></tr>
+<tr><td>10</td><td> Mission Ventures</td><td> 1996-01-01</td><td> missionventures.com</td><td> </td><td> USA</td><td> 58</td><td> 33</td><td> 0</td><td> 2007-06-05 05:24:58</td><td> 2013-10-10 22:06:31</td><td> middle_activity</td></tr>
+<tr><td>100</td><td> Kapor Enterprises Inc.</td><td> </td><td> kei.com</td><td> </td><td> USA</td><td> 2</td><td> 1</td><td> 0</td><td> 2007-07-12 09:42:21</td><td> 2008-11-21 05:41:53</td><td> low_activity</td></tr>
+<tr><td>10000</td><td> 3x5 Special Opportunity Partners</td><td> </td><td> </td><td> </td><td> </td><td> 4</td><td> 4</td><td> 0</td><td> 2012-10-26 03:16:38</td><td> 2012-10-26 03:16:38</td><td> low_activity</td></tr>
+<tr><td>10001</td><td> Salem Partners</td><td> 1997-01-01</td><td> salempartners.com</td><td> </td><td> USA</td><td> 1</td><td> 1</td><td> 0</td><td> 2012-10-26 03:16:38</td><td> 2013-05-24 14:07:03</td><td> low_activity</td></tr>
+<tr><td>10002</td><td> 3T Capital 3tcapital.com</td><td> </td><td> </td><td> </td><td> FRA</td><td> 3</td><td> 3</td><td> 0</td><td> 2012-10-26 04:40:22</td><td> 2012-10-26 04:45:15</td><td> low_activity</td></tr>
+<tr><td>10003</td><td> Merieux Developpement</td><td> 2009-01-01</td><td> merieux-developpement.com</td><td> </td><td> FRA</td><td> 2</td><td> 2</td><td> 0</td><td> 2012-10-26 10:38:51</td><td> 2013-05-17 05:43:09</td><td> low_activity</td></tr>
+<tr><td>10004</td><td> Aquasourca aquasourca.com</td><td> </td><td> </td><td> </td><td> FRA</td><td> 1</td><td> 1</td><td> 0</td><td> 2012-10-26 10:38:51</td><td> 2013-06-07 11:05:22</td><td> low_activity</td></tr>
+<tr><td>10005</td><td> Texas Entrepreneur Networks</td><td> 2009-01-01</td><td> texasenetworks.com</td><td> </td><td> USA</td><td> 1</td><td> 1</td><td> 0</td><td> 2012-10-26 11:51:12</td><td> 2013-06-07 11:07:44</td><td> low_activity</td></tr>
+<tr><td>10008</td><td> Navitrio</td><td> </td><td> navitrio.com</td><td> </td><td> ISR</td><td> 1</td><td> 1</td><td> 0</td><td> 2012-10-27 03:59:33</td><td>2012-10-27 04:05:16</td><td> low_activity</td></tr>
+<tr><td>1001</td><td> Burch Investment Group</td><td> </td><td> </td><td> </td><td> USA</td><td> 1</td><td> 1</td><td> 0</td><td> 2008-04-14 16:30:17</td><td> 2008-05-24 02:41:47</td><td> low_activity</td></tr>
+</tbody>
+</table>
+<hr>
+
+<a name="T9"></a>
+
+#### 9. Для каждой из категорий, назначенных в предыдущем задании, посчитаем округлённое до ближайшего целого числа среднее количество инвестиционных раундов, в которых фонд принимал участие. Выведем на экран категории и среднее число инвестиционных раундов. Отсортируем таблицу по возрастанию среднего.
 
 ```SQL
-SELECT to_char(CAST(c.funding_total AS numeric), '9999999999FM') AS funding_total
-FROM company c
-WHERE c.category_code = 'news'
-  AND country_code = 'USA'
-ORDER BY c.funding_total DESC;
+SELECT ROUND(AVG(f.investment_rounds)),
+       CASE
+           WHEN invested_companies>=100 THEN 'high_activity'
+           WHEN invested_companies>=20 THEN 'middle_activity'
+           ELSE 'low_activity'
+       END AS activity
+FROM fund f
+GROUP BY activity
+ORDER BY round ASC;
 
 ```
 Результат: 
-| funding_total | 
-|------   |  
-|622553000||------   |  
-|250000000||------   |  
-|160500000||------   |  
-|128000000||------   |  
-|126500000||------   |  
-|70000000||------   |  
-|...|
-___<a name="T2"></a>
-#### 2. Отобразим количество привлечённых средств для новостных компаний США. Используем данные из таблицы `company`. Отсортируем таблицу по убыванию значений в поле `funding_total` .
+<table border="1">
+<thead>
+<tr><th>round</th><th>activity</th></tr>
+</thead>
+<tbody>
+<tr><td>2</td><td>low_activity</td></tr>
+<tr><td>51</td><td>middle_activity</td></tr>
+<tr><td>252</td><td>high_activity</td></tr>
+</tbody>
+</table>
+<hr>
+
+<a name="T10"></a>
+
+#### 10. Проанализируем, в каких странах находятся фонды, которые чаще всего инвестируют в стартапы. Для каждой страны посчитаем минимальное, максимальное и среднее число компаний, в которые инвестировали фонды этой страны, основанные с 2010 по 2012 год включительно. Исключим страны с фондами, у которых минимальное число компаний, получивших инвестиции, равно нулю. Выгрузите десять самых активных стран-инвесторов. Отсортируем таблицу по среднему количеству компаний от большего к меньшему, а затем по коду страны в лексикографическом порядке.
 
 ```SQL
-SELECT to_char(CAST(c.funding_total AS numeric), '9999999999FM') AS funding_total
-FROM company c
-WHERE c.category_code = 'news'
-  AND country_code = 'USA'
-ORDER BY c.funding_total DESC;
+SELECT country_code,
+       MIN(f.invested_companies),
+       MAX(f.invested_companies),
+       AVG(f.invested_companies)
+FROM fund f
+WHERE EXTRACT(YEAR
+              FROM f.founded_at::date) BETWEEN 2010 AND 2012
+GROUP BY country_code
+HAVING MIN(f.invested_companies) <> 0
+ORDER BY AVG DESC, country_code ASC
+LIMIT 10;;
 
 ```
 Результат: 
-| funding_total | 
-|------   |  
-|622553000||------   |  
-|250000000||------   |  
-|160500000||------   |  
-|128000000||------   |  
-|126500000||------   |  
-|70000000||------   |  
-|...|
-___<a name="T2"></a>
-#### 2. Отобразим количество привлечённых средств для новостных компаний США. Используем данные из таблицы `company`. Отсортируем таблицу по убыванию значений в поле `funding_total` .
+<table border="1">
+<thead>
+<tr><th>country_code</th><th>min</th><th>max</th><th>avg</th></tr>
+</thead>
+<tbody>
+<tr><td>BGR</td><td>25</td><td>35</td><td>30</td></tr>
+<tr><td>CHL</td><td>29</td><td>29</td><td>29</td></tr>
+<tr><td>UKR</td><td>8</td><td>10</td><td>9</td></tr>
+<tr><td>LTU</td><td>5</td><td>5</td><td>5</td></tr>
+<tr><td>IRL</td><td>4</td><td>5</td><td>4.5</td></tr>
+<tr><td>KEN</td><td>3</td><td>3</td><td>3</td></tr>
+<tr><td>LBN</td><td>3</td><td>3</td><td>3</td></tr>
+<tr><td>MUS</td><td>3</td><td>3</td><td>3</td></tr>
+<tr><td>JPN</td><td>1</td><td>6</td><td>2.83333</td></tr>
+<tr><td>HKG</td><td>2</td><td>3</td><td>2.66667</td></tr>
+</tbody>
+</table>
+<hr>
+
+<a name="T11"></a>
+#### 11. Отобразим имя и фамилию всех сотрудников стартапов. Добавим поле с названием учебного заведения, которое окончил сотрудник, если эта информация известна.
 
 ```SQL
-SELECT to_char(CAST(c.funding_total AS numeric), '9999999999FM') AS funding_total
-FROM company c
-WHERE c.category_code = 'news'
-  AND country_code = 'USA'
-ORDER BY c.funding_total DESC;
+SELECT first_name, last_name, instituition
+FROM people p
+LEFT JOIN education ed ON p.id = ed.person_id;
 
 ```
 Результат: 
-| funding_total | 
-|------   |  
-|622553000||------   |  
-|250000000||------   |  
-|160500000||------   |  
-|128000000||------   |  
-|126500000||------   |  
-|70000000||------   |  
-|...|
-___<a name="T2"></a>
-#### 2. Отобразим количество привлечённых средств для новостных компаний США. Используем данные из таблицы `company`. Отсортируем таблицу по убыванию значений в поле `funding_total` .
+<table border="1">
+<thead>
+<tr><th>first_name</th><th> last_name</th><th> instituition</th></tr>
+</thead>
+<tbody>
+<tr><td>John</td><td> Green</td><td> Washington University St. Louis</td></tr>
+<tr><td>John</td><td> Green</td><td> Boston University</td></tr>
+<tr><td>David</td><td> Peters</td><td> Rice University</td></tr>
+<tr><td>Dan</td><td> Birdwhistell</td><td> University of Cambridge</td></tr>
+<tr><td>Gal</td><td> Cohen</td><td> Tel Aviv University</td></tr>
+<tr><td>Chris</td><td> Treadaway</td><td> University of Texas</td></tr>
+<tr><td>Chris</td><td> Treadaway</td><td> Louisiana State University</td></tr>
+<tr><td>Sam</td><td> Lessin</td><td> Harvard University</td></tr>
+<tr><td>Guy</td><td> Levy-Yurista</td><td> University of Pennsylvania - The Wharton School</td></tr>
+<tr><td>James</td><td> M.Butler</td><td> University of Maryland</td></tr>
+<tr><td>...</td><td>...</td><td>...</td></tr>
+</tbody>
+</table>  
+<hr>
+
+<a name="T12"></a>
+
+#### 12. Для каждой компании найдем количество учебных заведений, которые окончили её сотрудники. Выведем название компании и число уникальных названий учебных заведений. Составим топ-5 компаний по количеству университетов.
 
 ```SQL
-SELECT to_char(CAST(c.funding_total AS numeric), '9999999999FM') AS funding_total
+SELECT c.name,
+       COUNT(DISTINCT e.instituition) instituition_qty
 FROM company c
-WHERE c.category_code = 'news'
-  AND country_code = 'USA'
-ORDER BY c.funding_total DESC;
+JOIN people p ON c.id = p.company_id
+JOIN education e ON p.id = e.person_id
+GROUP BY c.name
+ORDER BY instituition_qty DESC
+LIMIT 5;
 
 ```
 Результат: 
-| funding_total | 
-|------   |  
-|622553000||------   |  
-|250000000||------   |  
-|160500000||------   |  
-|128000000||------   |  
-|126500000||------   |  
-|70000000||------   |  
-|...|
-___<a name="T2"></a>
+<table border="1">
+<thead>
+<tr><th>name</th><th> instituition_qty</th></tr>
+</thead>
+<tbody>
+<tr><td>Google</td><td> 167</td></tr>
+<tr><td>Yahoo!</td><td> 115</td></tr>
+<tr><td>Microsoft</td><td> 111</td></tr>
+<tr><td>Knight Foundation</td><td> 74</td></tr>
+<tr><td>Comcast</td><td> 66</td></tr>
+</tbody>
+</table>
+<hr>
+
+<a name="T13"></a>
 #### 2. Отобразим количество привлечённых средств для новостных компаний США. Используем данные из таблицы `company`. Отсортируем таблицу по убыванию значений в поле `funding_total` .
 
 ```SQL
